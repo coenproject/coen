@@ -1,0 +1,20 @@
+!set $TITLE Two Level Page Tables
+!set $AUTHOR ffs
+!set $DATE $TODAY
+
+Q> Question 1
+
+Given:
+
+32-bit address space
+8-bit PID
+8KB pages -> 2^13 bytes -> 13 bit offset
+
+Calculate Page Table size for single-level page table.
+
+A> Answer 1
+
+40 bit total
+27 + 13 bits
+
+2^27 * 2^3 bytes = 2^30 bytes = 1GB
