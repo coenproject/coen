@@ -9,7 +9,6 @@ use std::{
 mod commands;
 
 pub(crate) struct Coen {
-    project_path: PathBuf,
     info_file_path: PathBuf,
     coen_file_path: PathBuf,
 
@@ -32,7 +31,6 @@ impl Coen {
         coen_file_path.push("main.coen");
 
         Self {
-            project_path,
             info_file_path,
             coen_file_path,
             variables: HashMap::new(),
@@ -53,9 +51,11 @@ impl Coen {
                 Some(char) => {
                     if char == '!' {
                         self.execute_command();
+                    } else {
+                        self.command_write();
                     }
                 }
-                None => {}
+                None => self.command_newline(),
             }
         }
 
@@ -71,10 +71,9 @@ impl Coen {
         }
 
         match arguments.first().unwrap() {
-            &"!set" => {
-                self.command_set();
-            }
-            _ => {}
+            &"!set" => self.command_set(),
+            &"!heading" => self.command_heading(),
+            _ => self.command_unknown(),
         }
 
         self.arguments.clear();

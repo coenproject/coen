@@ -1,7 +1,7 @@
 use std::{error::Error, path::PathBuf};
 
-mod config;
 mod coen;
+mod config;
 
 fn main() -> Result<(), Box<dyn Error>> {
     let cwd = std::env::current_dir()?;
@@ -15,6 +15,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     coen_instance.convert()?;
 
     let output = coen_instance.get_output();
+    println!("OUTPUT:");
     println!("{output}");
 
     Ok(())
