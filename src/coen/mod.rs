@@ -1,4 +1,12 @@
-use std::{path::PathBuf, fs::File, collections::HashMap, io::{BufReader, BufRead}, error::Error};
+use std::{
+    collections::HashMap,
+    error::Error,
+    fs::File,
+    io::{BufRead, BufReader},
+    path::PathBuf,
+};
+
+mod commands;
 
 pub(crate) struct Coen {
     project_path: PathBuf,
@@ -6,7 +14,11 @@ pub(crate) struct Coen {
     coen_file_path: PathBuf,
 
     variables: HashMap<String, String>,
+
     current_statement: String,
+    arguments: Vec<String>,
+
+    output: String,
 }
 
 impl Coen {
@@ -18,13 +30,15 @@ impl Coen {
         let mut coen_file_path = PathBuf::new();
         coen_file_path.push(project_path.clone());
         coen_file_path.push("main.coen");
-    
+
         Self {
             project_path,
             info_file_path,
             coen_file_path,
             variables: HashMap::new(),
-            current_statement: String::from("")
+            current_statement: String::from(""),
+            arguments: Vec::new(),
+            output: String::from(""),
         }
     }
 
@@ -32,43 +46,41 @@ impl Coen {
         let coen_file = File::open(self.coen_file_path.clone())?;
         let reader = BufReader::new(coen_file);
 
-        let mut pre: String;
-        let mut content: String;
-
         for line in reader.lines() {
-            let line = line?;
+            self.current_statement = line?;
 
-            match line.chars().nth(0) {
+            match self.current_statement.chars().nth(0) {
                 Some(char) => {
                     if char == '!' {
-                        self.execute_command(line);
+                        self.execute_command();
                     }
-                },
-                None => {},
+                }
+                None => {}
             }
         }
 
         Ok(())
     }
 
-    fn execute_command(&self, command: String) {
-        println!("Encountered Command: {command}");
-
-        let arguments = command.split_whitespace();
+    fn execute_command(&mut self) {
+        let arguments = self.current_statement.split_whitespace();
         let arguments: Vec<&str> = arguments.collect();
 
-        match arguments.clone().into_iter().nth(0).unwrap() {
-            "!set" => {
-                self.command_set();
-            },
-            _ => {}
-
+        for param in arguments.iter().skip(1) {
+            self.arguments.push(param.to_string());
         }
 
-        println!("{arguments:?}");
+        match arguments.first().unwrap() {
+            &"!set" => {
+                self.command_set();
+            }
+            _ => {}
+        }
+
+        self.arguments.clear();
     }
 
-    fn command_set(&self) {
-        println!("Encountered SET");
+    pub fn get_output(&self) -> String {
+        self.output.clone()
     }
 }
