@@ -13,11 +13,11 @@ impl Coen {
         let mut is_first = true;
 
         for word in self.arguments.clone().into_iter() {
-            if !is_first {
-                self.output.push_str(" ");
+            if is_first {
                 is_first = false;
+            } else {
+                self.output.push_str(" ");
             }
-
             self.output.push_str(word.as_str());
         }
 

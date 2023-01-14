@@ -2,7 +2,7 @@
 !set $AUTHOR ffs
 !set $DATE $TODAY
 
-Q> Question 1
+!heading Question 1
 
 Given:
 
@@ -12,7 +12,7 @@ Given:
 
 Calculate Page Table size for single-level page table.
 
-A> Answer 1
+!heading Answer 1
 
 40 bit total
 27 + 13 bits

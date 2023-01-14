@@ -7,10 +7,10 @@ use std::{
 };
 
 mod commands;
+mod paths;
 
 pub(crate) struct Coen {
-    info_file_path: PathBuf,
-    coen_file_path: PathBuf,
+    project_path: PathBuf,
 
     variables: HashMap<String, String>,
 
@@ -22,17 +22,8 @@ pub(crate) struct Coen {
 
 impl Coen {
     pub fn new(project_path: PathBuf) -> Self {
-        let mut info_file_path = PathBuf::new();
-        info_file_path.push(project_path.clone());
-        info_file_path.push("info.txt");
-
-        let mut coen_file_path = PathBuf::new();
-        coen_file_path.push(project_path.clone());
-        coen_file_path.push("main.coen");
-
         Self {
-            info_file_path,
-            coen_file_path,
+            project_path,
             variables: HashMap::new(),
             current_statement: String::from(""),
             arguments: Vec::new(),
@@ -41,7 +32,7 @@ impl Coen {
     }
 
     pub fn convert(&mut self) -> Result<(), Box<dyn Error>> {
-        let coen_file = File::open(self.coen_file_path.clone())?;
+        let coen_file = File::open(self.get_coen_file_path().clone())?;
         let reader = BufReader::new(coen_file);
 
         for line in reader.lines() {
