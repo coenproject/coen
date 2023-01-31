@@ -1,22 +1,20 @@
-use std::{error::Error, path::PathBuf};
+mod args;
 
-mod coen;
-mod config;
+use args::{
+    CoenArgs,
+    OperationType::{Build, New},
+};
+use clap::Parser;
 
-fn main() -> Result<(), Box<dyn Error>> {
-    let cwd = std::env::current_dir()?;
+fn main() {
+    let args = CoenArgs::parse();
 
-    let mut project_path = PathBuf::new();
-    project_path.push(cwd);
-    project_path.push(config::PROJECT_PATH);
-
-    let mut coen_instance = coen::Coen::new(project_path);
-
-    coen_instance.convert()?;
-
-    let output = coen_instance.get_output();
-    println!("OUTPUT:");
-    println!("{output}");
-
-    Ok(())
+    match args.operation {
+        New(file) => {
+            println!("Creating new project: {file:?}");
+        }
+        Build(file) => {
+            println!("Building current project: {file:?}");
+        }
+    }
 }
