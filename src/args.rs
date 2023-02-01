@@ -12,14 +12,24 @@ pub struct CoenArgs {
 #[derive(Debug, Subcommand)]
 pub enum OperationType {
     /// Create a new project
-    New(File),
+    New(NewArgs),
 
     /// Build project
-    Build(File),
+    Build(BuildArgs),
 }
 
 #[derive(Debug, Args)]
-pub struct File {
+pub struct NewArgs {
+    /// Path of the file/project
+    pub path: PathBuf,
+
+    #[arg(short, long)]
+    /// Name of the template
+    pub template: Option<String>,
+}
+
+#[derive(Debug, Args)]
+pub struct BuildArgs {
     /// Path of the file/project
     pub path: PathBuf,
 }
