@@ -1,11 +1,7 @@
 mod args;
 mod config;
 
-use std::{
-    fs::{self, File},
-    io::Write,
-    path::PathBuf,
-};
+use std::{fs, path::PathBuf};
 
 use config::TemplateGenerator;
 
