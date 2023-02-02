@@ -25,7 +25,7 @@ impl Coen {
             .iter()
             .collect();
 
-        println!("{}", project_path.display());
+        println!("{}", wrap_path.display());
 
         if !project_path.exists() {
             fs::create_dir(&project_path).unwrap();
@@ -35,8 +35,24 @@ impl Coen {
             }
         }
 
-        fs::write(wrap_path, template.get_wrap().get_contents()).unwrap();
-        fs::write(info_path, template.get_info().get_contents(project_name)).unwrap();
-        fs::write(main_path, template.get_main().get_contents()).unwrap();
+        if !new_args.reference {
+            fs::write(&wrap_path, template.get_wrap().get_contents()).unwrap();
+        }
+
+        let target_wrap_path = if new_args.reference {
+            wrap_path.to_str().unwrap()
+        } else {
+            "wrap.coen"
+        };
+
+        fs::write(
+            &info_path,
+            template
+                .get_info()
+                .get_contents(project_name, target_wrap_path),
+        )
+        .unwrap();
+
+        fs::write(&main_path, template.get_main().get_contents()).unwrap();
     }
 }

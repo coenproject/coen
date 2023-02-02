@@ -21,9 +21,10 @@ pub(crate) struct Info {
 }
 
 impl Info {
-    pub(crate) fn get_contents(self, name: &str) -> String {
+    pub(crate) fn get_contents(self, name: &str, wrap: &str) -> String {
         let contents = fs::read_to_string(self.path).unwrap();
         let contents = contents.replace("$PROJECT_NAME", name);
+        let contents = contents.replace("$WRAP_PATH", wrap);
 
         contents
     }

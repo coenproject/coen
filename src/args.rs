@@ -26,6 +26,10 @@ pub struct NewArgs {
     #[arg(short, long)]
     /// Name of the template
     pub template: Option<String>,
+
+    #[arg(short, long)]
+    /// Use reference for template
+    pub reference: bool,
 }
 
 #[derive(Debug, Args)]
