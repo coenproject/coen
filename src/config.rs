@@ -1,7 +1,8 @@
 use std::{fs, path::PathBuf};
 
-pub const CONFIG_PATH: &str = "$HOME/.coen/";
+pub const CONFIG_PATH: &str = "/home/madhavan/.coen";
 
+#[derive(Debug, Clone)]
 pub struct Wrap {
     path: PathBuf,
 }
@@ -14,6 +15,7 @@ impl Wrap {
     }
 }
 
+#[derive(Debug, Clone)]
 pub struct Info {
     path: PathBuf,
 }
@@ -27,6 +29,7 @@ impl Info {
     }
 }
 
+#[derive(Debug, Clone)]
 pub struct Main {
     path: PathBuf,
 }
@@ -39,6 +42,7 @@ impl Main {
     }
 }
 
+#[derive(Debug, Clone)]
 pub struct TemplateGenerator {
     template_name: String,
     wrap: Wrap,
@@ -71,7 +75,15 @@ impl TemplateGenerator {
         }
     }
 
-    pub fn get_wrap() {
-        //
+    pub fn get_wrap(&self) -> Wrap {
+        self.wrap.clone()
+    }
+
+    pub fn get_info(&self) -> Info {
+        self.info.clone()
+    }
+
+    pub fn get_main(&self) -> Main {
+        self.main.clone()
     }
 }
