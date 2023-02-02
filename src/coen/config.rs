@@ -1,14 +1,14 @@
 use std::{fs, path::PathBuf};
 
-pub const CONFIG_PATH: &str = "/home/madhavan/.coen";
+pub(crate) const CONFIG_PATH: &str = "/home/madhavan/.coen";
 
 #[derive(Debug, Clone)]
-pub struct Wrap {
+pub(crate) struct Wrap {
     path: PathBuf,
 }
 
 impl Wrap {
-    pub fn get_contents(self) -> String {
+    pub(crate) fn get_contents(self) -> String {
         let contents = fs::read_to_string(self.path).unwrap();
 
         contents
@@ -16,12 +16,12 @@ impl Wrap {
 }
 
 #[derive(Debug, Clone)]
-pub struct Info {
+pub(crate) struct Info {
     path: PathBuf,
 }
 
 impl Info {
-    pub fn get_contents(self, name: &str) -> String {
+    pub(crate) fn get_contents(self, name: &str) -> String {
         let contents = fs::read_to_string(self.path).unwrap();
         let contents = contents.replace("$PROJECT_NAME", name);
 
@@ -30,12 +30,12 @@ impl Info {
 }
 
 #[derive(Debug, Clone)]
-pub struct Main {
+pub(crate) struct Main {
     path: PathBuf,
 }
 
 impl Main {
-    pub fn get_contents(self) -> String {
+    pub(crate) fn get_contents(self) -> String {
         let contents = fs::read_to_string(self.path).unwrap();
 
         contents
@@ -43,7 +43,7 @@ impl Main {
 }
 
 #[derive(Debug, Clone)]
-pub struct TemplateGenerator {
+pub(crate) struct TemplateGenerator {
     template_name: String,
     wrap: Wrap,
     info: Info,
@@ -51,7 +51,7 @@ pub struct TemplateGenerator {
 }
 
 impl TemplateGenerator {
-    pub fn new(template_name: Option<String>) -> Self {
+    pub(crate) fn new(template_name: Option<String>) -> Self {
         let template_name = template_name.unwrap_or("default".to_owned());
 
         let template_path: PathBuf = [CONFIG_PATH.to_owned(), template_name.clone()]
@@ -75,15 +75,15 @@ impl TemplateGenerator {
         }
     }
 
-    pub fn get_wrap(&self) -> Wrap {
+    pub(crate) fn get_wrap(&self) -> Wrap {
         self.wrap.clone()
     }
 
-    pub fn get_info(&self) -> Info {
+    pub(crate) fn get_info(&self) -> Info {
         self.info.clone()
     }
 
-    pub fn get_main(&self) -> Main {
+    pub(crate) fn get_main(&self) -> Main {
         self.main.clone()
     }
 }
