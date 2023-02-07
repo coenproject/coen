@@ -12,7 +12,7 @@ use clap::Parser;
 fn main() -> Result<(), Box<dyn Error>> {
     let args = CoenArgs::parse();
 
-    let mut root_path = fs::canonicalize(args.root)?;
+    let root_path = fs::canonicalize(args.root)?;
 
     let builder = CoenBuilder::new(root_path)?;
 
