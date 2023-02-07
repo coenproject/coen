@@ -1,20 +1,22 @@
 mod args;
-mod coen;
+mod coen_builder;
 
-use crate::coen::Coen;
+use std::{error::Error, fs};
 
-use args::{
-    CoenArgs,
-    OperationType::{Build, New},
-};
+use crate::coen_builder::CoenBuilder;
+
+use args::CoenArgs;
 
 use clap::Parser;
 
-fn main() {
+fn main() -> Result<(), Box<dyn Error>> {
     let args = CoenArgs::parse();
 
-    match args.operation {
-        New(new_args) => Coen::create(new_args),
-        Build(file) => println!("Building current project: {file:?}"),
-    }
+    let mut root_path = fs::canonicalize(args.root)?;
+
+    let builder = CoenBuilder::new(root_path)?;
+
+    println!("{builder:?}");
+
+    Ok(())
 }
