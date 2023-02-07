@@ -1,5 +1,8 @@
 use crate::{args::NewArgs, coen::config::TemplateGenerator};
-use std::{fs, path::PathBuf};
+use std::{
+    fs,
+    path::{Path, PathBuf},
+};
 
 use super::Coen;
 
@@ -27,14 +30,6 @@ impl Coen {
 
         println!("{}", wrap_path.display());
 
-        if !project_path.exists() {
-            fs::create_dir(&project_path).unwrap();
-
-            if !src_path.exists() {
-                fs::create_dir(&src_path).unwrap();
-            }
-        }
-
         if !new_args.reference {
             fs::write(&wrap_path, template.get_wrap().get_contents()).unwrap();
         }
@@ -54,5 +49,17 @@ impl Coen {
         .unwrap();
 
         fs::write(&main_path, template.get_main().get_contents()).unwrap();
+    }
+
+    fn create_project_files(project_path: &Path) {
+        if !project_path.exists() {
+            fs::create_dir(&project_path).unwrap();
+
+            let src_path = project_path.join("src");
+
+            if !src_path.exists() {
+                fs::create_dir(&src_path).unwrap();
+            }
+        }
     }
 }

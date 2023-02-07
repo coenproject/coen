@@ -1,4 +1,7 @@
-use std::{fs, path::PathBuf};
+use std::{
+    fs,
+    path::{Path, PathBuf},
+};
 
 pub(crate) const CONFIG_PATH: &str = "/home/madhavan/.coen";
 
@@ -45,7 +48,6 @@ impl Main {
 
 #[derive(Debug, Clone)]
 pub(crate) struct TemplateGenerator {
-    template_name: String,
     wrap: Wrap,
     info: Info,
     main: Main,
@@ -68,12 +70,7 @@ impl TemplateGenerator {
         let main_path: PathBuf = [template_path.clone(), "main.coen".into()].iter().collect();
         let main = Main { path: main_path };
 
-        Self {
-            template_name,
-            wrap,
-            info,
-            main,
-        }
+        Self { wrap, info, main }
     }
 
     pub(crate) fn get_wrap(&self) -> Wrap {
