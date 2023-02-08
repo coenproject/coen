@@ -53,7 +53,7 @@ I have designed the exam such that you should be able to complete a problem wort
     However, it lacks a very important detail: it does not require that the ordering of nodes $(v_1, \ldots, v_k)$ forms a connected path!
     This statement is thus incorrect because it is \textit{insufficient}; in this case, all shortest $(s,t)$-paths would satisfy this definition, but so would some non-$(s,t)$-paths.
 
-!subsection Problem 2: IP/LP Formulations [15 points]
+>> Problem 2: IP/LP Formulations [15 points]
 
 This problem tests your ability to formulate a combinatorial problem statement as an integer or linear program and understand various properties about the resulting IP/LP.
 This problem will open with a statement of one of the following combinatorial problems: \textsf{Minimum-Vertex-Cover}, \textsf{Minimum-Edge-Cover}, \textsf{Maximum-Independent-Set}, \textsf{Minimum-Dominating-Set}, \textsf{Maximum-Matching}, \textsf{Minimum-Perfect-Matching}, \textsf{Knapsack}, \textsf{Minimum-Spanning-Tree}, or \textsf{Traveling-Salesman}.
@@ -83,7 +83,7 @@ Based on the assignments and the Midterm Exam, here are some common mistakes to 
     These are not interchangeable.
 \end{itemize}
 
-!subsection Problem 3: Simplex and Duality [20 points]
+>> Problem 3: Simplex and Duality [20 points]
 
 This problem tests your ability to translate between the different forms of an LP (general, standard, and canonical), initialize a simplex tableau, choose simplex pivots according to Bland's anticycling algorithm, write the dual of a primal LP, and derive optimal feasible solutions using complementary slackness.
 The problem starts with an LP in general form. You will then be asked to do five things:
@@ -100,7 +100,7 @@ The problem starts with an LP in general form. You will then be asked to do five
     \item Given the optimal solution to the original LP and the corrected dual from part (d), use complementary slackness to find the optimal solution to the dual LP.
 \end{enumerate}
 
-!subsection Problem 4: Network Flows and Cuts [15 points]
+>> Problem 4: Network Flows and Cuts [15 points]
 
 This problem tests your understanding of network flows and the polynomial-time algorithms used to compute them.
 This is the only problem containing ``new'' material in the sense that you will need to extend what you know about network flows to a closely related topic that we have not explicitly discussed in class.
@@ -116,13 +116,13 @@ You will then be asked to do three things:
     For example, if the graph quantity were the shortest path length, this modification would need to also return the shortest path.
 \end{enumerate}
 
-!subsection Problem 5: Matchings [15 points]
+>> Problem 5: Matchings [15 points]
 
 This problem tests your understanding of matchings and your mastery over the theoretical results we proved about them.
 Specifically, you will be asked to prove one of the following three results about matchings: Hall's Theorem (Lecture 3 proof supplement) or Problem 1 or 2 from Assignment 5 (not the extra credit).
 Any supporting lemmas or theorems for those proofs will be stated in the problem to be used without reproof.
 
-!subsection Problem 6: NP-Completeness [15 points]
+>> Problem 6: NP-Completeness [15 points]
 
 This problem tests your ability to prove a problem is NP-complete using a polynomial-time reduction from a known NP-complete problem.
 Specifically, you will be asked to prove one of the following decision problems is NP-complete: \textsf{Longest-Path}, \textsf{Partition}, \textsf{Knapsack}, \textsf{Clique}, \textsf{Vertex-Cover}, or \textsf{Traveling-Salesman}.
@@ -149,7 +149,7 @@ Recall from Lecture 4 that your proof that $\Pi$ is NP-complete should follow th
     Depending on the reduction, this can either be done in two parts (first considering $I$ is a \textsc{Yes}-instance of $\Pi'$ and proving $f(I)$ is a \textsc{Yes}-instance of $\Pi$; then doing the same for the reverse direction) or by showing some if-and-only-if relationship all the way through.
 \end{enumerate}
 
-!section Frequently Asked Questions
+> Frequently Asked Questions
 
 \begin{itemize}
     \item \textbf{What format is the exam?}

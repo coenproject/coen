@@ -55,7 +55,6 @@
 \maketitle
 
 \thispagestyle{firststyle}
-
 !import main.coen
 
 \end{document}

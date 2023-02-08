@@ -15,9 +15,6 @@ impl CoenBuilder {
     pub fn build(&mut self) -> Result<(), Box<dyn Error>> {
         self.build_content()?;
 
-        println!("{:?}", self.variables);
-        println!("{:?}", self.replacements);
-
         Ok(())
     }
 
@@ -36,14 +33,14 @@ impl CoenBuilder {
         let reader = BufReader::new(file);
 
         for line in reader.lines() {
-            self.current_statement = line?;
+            self.current_statement = format!("{}\n", line?.trim());
 
             match self.current_statement.chars().nth(0) {
                 Some(ch) => {
                     if ch == COMAND_IDENTIFIER {
                         self.handle_command()?;
                     } else {
-                        self.handle_statement();
+                        self.handle_statement()?;
                     }
                 }
                 None => {}
@@ -80,7 +77,7 @@ impl CoenBuilder {
         Ok(())
     }
 
-    pub(crate) fn handle_statement(&self) -> Result<(), Box<dyn Error>> {
+    pub(crate) fn handle_statement(&mut self) -> Result<(), Box<dyn Error>> {
         let mut modified_sentence = String::from(&self.current_statement);
 
         for (replacement_key, replacement_value) in &self.replacements {
@@ -95,7 +92,7 @@ impl CoenBuilder {
             modified_sentence = re.replace(&modified_sentence, variable_value).to_string();
         }
 
-        println!("{}", modified_sentence);
+        self.content.push_str(&modified_sentence);
 
         Ok(())
     }

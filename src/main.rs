@@ -1,7 +1,7 @@
 mod args;
 mod coen_builder;
 
-use std::error::Error;
+use std::{error::Error, fs};
 
 use crate::coen_builder::CoenBuilder;
 
@@ -12,10 +12,14 @@ use clap::Parser;
 fn main() -> Result<(), Box<dyn Error>> {
     let args = CoenArgs::parse();
 
-    let mut builder = CoenBuilder::new(args)?;
-    builder.build();
+    let tgt = args.target.clone().unwrap();
 
-    println!("{:?}", builder.get_content());
+    let mut builder = CoenBuilder::new(args)?;
+    builder.build()?;
+
+    let content = builder.get_content();
+
+    fs::write(tgt, &content)?;
 
     Ok(())
 }
