@@ -1,21 +1,53 @@
 use std::{
     collections::{HashMap, HashSet},
     error::Error,
+    fs,
     path::PathBuf,
 };
+
+use crate::args::CoenArgs;
 
 #[derive(Debug)]
 pub struct CoenBuilder {
     root_path: PathBuf,
+    target_override: Option<PathBuf>,
+    silent: bool,
 
     content: String,
     variables: HashMap<String, String>,
     replacements: HashMap<String, String>,
-    conversion_files: HashSet<String>,
+
+    current_conversion_file: PathBuf,
+    conversion_files: HashSet<PathBuf>,
+
+    current_statement: String,
 }
 
 impl CoenBuilder {
-    pub fn new(mut root_path: PathBuf) -> Result<Self, Box<dyn Error>> {
+    pub fn new(args: CoenArgs) -> Result<Self, Box<dyn Error>> {
+        let root_path = Self::get_root_path(&args.root)?;
+
+        let target_override = match args.target {
+            Some(p) => Some(fs::canonicalize(p)?),
+            None => None,
+        };
+
+        Ok(Self {
+            root_path: root_path.clone(),
+            target_override,
+            silent: args.silent,
+            content: String::new(),
+            variables: HashMap::new(),
+            replacements: HashMap::new(),
+            current_conversion_file: root_path.clone(),
+            conversion_files: HashSet::new(),
+            current_statement: String::new(),
+        })
+    }
+
+    fn get_root_path(path: &PathBuf) -> Result<PathBuf, Box<dyn Error>> {
+        let mut root_path = fs::canonicalize(&path)?;
+
         if root_path.is_dir() {
             root_path.push("root.coen");
 
@@ -30,18 +62,13 @@ impl CoenBuilder {
             }
         }
 
-        Ok(Self {
-            root_path: root_path.clone(),
-            content: String::new(),
-            variables: HashMap::new(),
-            replacements: HashMap::new(),
-            conversion_files: HashSet::new(),
-        })
+        Ok(root_path)
     }
 
-    pub fn build(&self) -> Result<(), Box<dyn Error>> {
-        //
-
-        Ok(())
+    pub fn get_content(&self) -> String {
+        self.content.clone()
     }
 }
+
+mod build;
+mod commands;
