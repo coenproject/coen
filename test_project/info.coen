@@ -1,7 +1,6 @@
 !set TITLE $COURSE: $DOCUMENT
 !set AUTHOR Prof. Joshua J. Daymude
 !set DATE
-!set TEMPLATE ./coen/resources/template
 
 !set COURSE CSE 550
 !set DOCUMENT Final Exam Study Guide

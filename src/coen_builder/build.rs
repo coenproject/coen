@@ -60,11 +60,16 @@ impl CoenBuilder {
             "import" => {
                 self.command_import()?;
             }
+            "set" => {
+                self.command_set()?;
+            }
             _ => {
                 println!("Invalid command: {}", elements[0]);
-                self.command_default()?;
+                // self.command_default()?;
             }
         }
+
+        println!("{:?}", self.variables);
 
         Ok(())
     }
