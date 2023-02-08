@@ -42,7 +42,9 @@ impl CoenBuilder {
     }
 
     pub(crate) fn command_default(&mut self) -> Result<(), Box<dyn Error>> {
-        println!("Invalid command");
+        let command: Vec<&str> = self.current_statement.split_whitespace().collect();
+
+        println!("Invalid command: {}", command[0]);
 
         Ok(())
     }
