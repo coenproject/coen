@@ -1,3 +1,5 @@
+use regex::Regex;
+
 use std::{
     error::Error,
     fs::File,
@@ -12,6 +14,9 @@ static COMAND_IDENTIFIER: char = '!';
 impl CoenBuilder {
     pub fn build(&mut self) -> Result<(), Box<dyn Error>> {
         self.build_content()?;
+
+        println!("{:?}", self.variables);
+        println!("{:?}", self.replacements);
 
         Ok(())
     }
@@ -63,19 +68,36 @@ impl CoenBuilder {
             "set" => {
                 self.command_set()?;
             }
+            "def" => {
+                self.command_def()?;
+            }
             _ => {
                 println!("Invalid command: {}", elements[0]);
                 // self.command_default()?;
             }
         }
 
-        println!("{:?}", self.variables);
-
         Ok(())
     }
 
-    pub(crate) fn handle_statement(&self) {
-        println!("{}", self.current_statement);
+    pub(crate) fn handle_statement(&self) -> Result<(), Box<dyn Error>> {
+        let mut modified_sentence = String::from(&self.current_statement);
+
+        for (replacement_key, replacement_value) in &self.replacements {
+            let re = Regex::new(replacement_key)?;
+            modified_sentence = re
+                .replace(&modified_sentence, replacement_value)
+                .to_string();
+        }
+
+        for (variable_key, variable_value) in &self.replacements {
+            let re = Regex::new(format!("${variable_key}").as_str())?;
+            modified_sentence = re.replace(&modified_sentence, variable_value).to_string();
+        }
+
+        println!("{}", modified_sentence);
+
+        Ok(())
     }
 
     pub(crate) fn get_joined_elements(elements: &Vec<&str>, start: usize) -> String {

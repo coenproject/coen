@@ -30,6 +30,17 @@ impl CoenBuilder {
         Ok(())
     }
 
+    pub(crate) fn command_def(&mut self) -> Result<(), Box<dyn Error>> {
+        let elements: Vec<&str> = self.current_statement.split_whitespace().collect();
+
+        let key = elements[1].to_string();
+        let value = Self::get_joined_elements(&elements, 2);
+
+        self.replacements.insert(key, value);
+
+        Ok(())
+    }
+
     pub(crate) fn command_default(&mut self) -> Result<(), Box<dyn Error>> {
         println!("Invalid command");
 
