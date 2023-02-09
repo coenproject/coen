@@ -1,0 +1,12 @@
+!import info.coen
+
+> Heading
+    Heading content
+    >> Subheading
+        Subheading content
+
+> Another Heading
+    Another heading content
+    
+    More stuff
+    color: red ~ AAA

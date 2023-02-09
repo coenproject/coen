@@ -42,7 +42,7 @@ impl CoenBuilder {
 
         self.log(&format!("Adding Definition: {key} - {value}"))?;
 
-        self.replacements.insert(key, value);
+        self.replacements.insert(key, value.replace(r"\n", "\n"));
 
         Ok(())
     }

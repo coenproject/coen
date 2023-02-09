@@ -1,0 +1,10 @@
+<html>
+<head>
+    <title>$TITLE</title>
+</head>
+<body>
+    <center><h1>$TITLE</h1></center>
+
+    !import main.coen
+</body>
+</html>

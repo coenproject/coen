@@ -1,0 +1,7 @@
+!set TITLE Sample Document
+!set AUTHOR Madhavan Raja
+!set DATE
+!set TARGET test_html/tgt/test.html
+!def ^>\s(?P<name>.+) <h1>$name</h1>
+!def ^>>\s(?P<name>.+) <h2>$name</h2>
+!def (?P<classes>.+)\s~\s(?P<content>.+) <div style="$classes;">\n$content\n</div>
