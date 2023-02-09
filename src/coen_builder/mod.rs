@@ -20,17 +20,10 @@ pub struct CoenBuilder {
 }
 
 impl CoenBuilder {
-    pub fn new(args: &CoenArgs) -> Result<Self, Box<dyn Error>> {
-        let root_path = Self::get_root_path(&args.root)?;
-
-        let target = match args.target.clone() {
-            Some(p) => Some(fs::canonicalize(p)?),
-            None => None,
-        };
-
+    pub fn new(root_path: PathBuf, silent: bool) -> Result<Self, Box<dyn Error>> {
         Ok(Self {
-            target,
-            silent: args.silent,
+            target: None,
+            silent,
             content: String::new(),
             variables: IndexMap::new(),
             replacements: IndexMap::new(),
@@ -66,6 +59,19 @@ impl CoenBuilder {
 
     pub fn get_target(&self) -> Option<PathBuf> {
         self.target.clone()
+    }
+
+    pub fn write(&self, target_override: Option<PathBuf>) -> Result<(), Box<dyn Error>> {
+        let target = match target_override {
+            Some(target) => target,
+            None => self.target.clone().unwrap(),
+        };
+
+        self.log(&format!("Writing to {}", target.display()))?;
+
+        fs::write(target, self.content.clone())?;
+
+        Ok(())
     }
 }
 
