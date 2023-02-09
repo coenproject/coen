@@ -12,6 +12,8 @@ impl CoenBuilder {
 
         next_file_path.push(next_file_name);
 
+        self.log(&format!("Importing File: {}", next_file_path.display()))?;
+
         self.current_conversion_file = PathBuf::from(next_file_path);
 
         self.build_content()?;
@@ -25,6 +27,8 @@ impl CoenBuilder {
         let key = elements[1].to_string();
         let value = Self::get_joined_elements(&elements, 2);
 
+        self.log(&format!("Adding Variable: {key} - {value}"))?;
+
         self.variables.insert(key, value);
 
         Ok(())
@@ -36,6 +40,8 @@ impl CoenBuilder {
         let key = elements[1].to_string();
         let value = Self::get_joined_elements(&elements, 2);
 
+        self.log(&format!("Adding Definition: {key} - {value}"))?;
+
         self.replacements.insert(key, value);
 
         Ok(())
@@ -44,7 +50,15 @@ impl CoenBuilder {
     pub(crate) fn command_default(&mut self) -> Result<(), Box<dyn Error>> {
         let command: Vec<&str> = self.current_statement.split_whitespace().collect();
 
-        println!("Invalid command: {}", command[0]);
+        self.log(&format!("Invalid Command: {}", command[0]))?;
+
+        Ok(())
+    }
+
+    pub(crate) fn log(&self, message: &str) -> Result<(), Box<dyn Error>> {
+        if !self.silent {
+            println!("{}", message);
+        }
 
         Ok(())
     }

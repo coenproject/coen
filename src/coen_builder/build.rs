@@ -13,6 +13,11 @@ static COMAND_IDENTIFIER: char = '!';
 
 impl CoenBuilder {
     pub fn build(&mut self) -> Result<(), Box<dyn Error>> {
+        self.log(&format!(
+            "Starting Build: {}",
+            self.current_conversion_file.display()
+        ))?;
+
         self.build_content()?;
 
         for (variable_key, variable_value) in &self.variables {
