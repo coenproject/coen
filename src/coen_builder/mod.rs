@@ -39,6 +39,7 @@ impl CoenBuilder {
 
         self.log(&format!("Writing to {}", target.display()))?;
 
+        fs::create_dir_all(target.parent().unwrap())?;
         fs::write(target, self.content.clone())?;
 
         Ok(())
