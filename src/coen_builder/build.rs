@@ -14,14 +14,9 @@ impl CoenBuilder {
     pub fn build(&mut self) -> Result<(), Box<dyn Error>> {
         self.build_content()?;
 
-        // for (variable_key, variable_value) in &self.variables {
-        //     let re = Regex::new(format!("${variable_key}").as_str())?;
-        //     self.content = re.replace(&self.content, variable_value).to_string();
-
-        //     println!("{} - {}", variable_key, variable_value);
-        // }
-
         for (variable_key, variable_value) in &self.variables {
+            println!("{} - {}", variable_key, variable_value);
+
             self.content = self
                 .content
                 .replace(&format!("${variable_key}"), variable_value);

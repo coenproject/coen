@@ -1,9 +1,11 @@
 use std::{
-    collections::{HashMap, HashSet},
+    collections::{BTreeMap, HashMap, HashSet},
     error::Error,
     fs,
     path::PathBuf,
 };
+
+use indexmap::IndexMap;
 
 use crate::args::CoenArgs;
 
@@ -14,8 +16,8 @@ pub struct CoenBuilder {
     silent: bool,
 
     content: String,
-    variables: HashMap<String, String>,
-    replacements: HashMap<String, String>,
+    variables: IndexMap<String, String>,
+    replacements: IndexMap<String, String>,
 
     current_conversion_file: PathBuf,
     conversion_files: HashSet<PathBuf>,
@@ -37,8 +39,8 @@ impl CoenBuilder {
             target_override,
             silent: args.silent,
             content: String::new(),
-            variables: HashMap::new(),
-            replacements: HashMap::new(),
+            variables: IndexMap::new(),
+            replacements: IndexMap::new(),
             current_conversion_file: root_path.clone(),
             conversion_files: HashSet::new(),
             current_statement: String::new(),
