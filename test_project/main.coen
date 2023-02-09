@@ -175,4 +175,5 @@ Recall from Lecture 4 that your proof that $\Pi$ is NP-complete should follow th
     % Not full executions.
     % I am mindful of your time limitations when crafting the exam.
     % Manually carrying out many pivots and row operations is time consuming and error prone; if simplex is on the exam, the question will respect your time.
+    % $COURSE
 \end{itemize}
