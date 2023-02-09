@@ -4,6 +4,7 @@ use std::{
     error::Error,
     fs::File,
     io::{BufRead, BufReader},
+    path::PathBuf,
 };
 
 use super::CoenBuilder;
@@ -15,12 +16,12 @@ impl CoenBuilder {
         self.build_content()?;
 
         for (variable_key, variable_value) in &self.variables {
-            println!("{} - {}", variable_key, variable_value);
-
             self.content = self
                 .content
                 .replace(&format!("${variable_key}"), variable_value);
         }
+
+        self.target = self.variables.get("TARGET").map(PathBuf::from);
 
         Ok(())
     }

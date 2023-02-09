@@ -1,9 +1,4 @@
-use std::{
-    collections::{BTreeMap, HashMap, HashSet},
-    error::Error,
-    fs,
-    path::PathBuf,
-};
+use std::{collections::HashSet, error::Error, fs, path::PathBuf};
 
 use indexmap::IndexMap;
 
@@ -11,8 +6,7 @@ use crate::args::CoenArgs;
 
 #[derive(Debug)]
 pub struct CoenBuilder {
-    root_path: PathBuf,
-    target_override: Option<PathBuf>,
+    target: Option<PathBuf>,
     silent: bool,
 
     content: String,
@@ -26,22 +20,21 @@ pub struct CoenBuilder {
 }
 
 impl CoenBuilder {
-    pub fn new(args: CoenArgs) -> Result<Self, Box<dyn Error>> {
+    pub fn new(args: &CoenArgs) -> Result<Self, Box<dyn Error>> {
         let root_path = Self::get_root_path(&args.root)?;
 
-        let target_override = match args.target {
+        let target = match args.target.clone() {
             Some(p) => Some(fs::canonicalize(p)?),
             None => None,
         };
 
         Ok(Self {
-            root_path: root_path.clone(),
-            target_override,
+            target,
             silent: args.silent,
             content: String::new(),
             variables: IndexMap::new(),
             replacements: IndexMap::new(),
-            current_conversion_file: root_path.clone(),
+            current_conversion_file: root_path,
             conversion_files: HashSet::new(),
             current_statement: String::new(),
         })
@@ -69,6 +62,10 @@ impl CoenBuilder {
 
     pub fn get_content(&self) -> String {
         self.content.clone()
+    }
+
+    pub fn get_target(&self) -> Option<PathBuf> {
+        self.target.clone()
     }
 }
 

@@ -4,6 +4,7 @@
 !set COURSE CSE 550
 !set DOCUMENT Final Exam Study Guide
 !set SESSION Fall 2022
+!set TARGET test_project/tgt/tt.tex
 !def ^>\s(?P<name>.+) \section{$name}
 !def ^>>\s(?P<name>.+) \subsection{$name}
 !def blue\s(?P<animal>dog|cat) gray $animal

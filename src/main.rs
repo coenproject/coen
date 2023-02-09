@@ -12,14 +12,17 @@ use clap::Parser;
 fn main() -> Result<(), Box<dyn Error>> {
     let args = CoenArgs::parse();
 
-    let tgt = args.target.clone().unwrap();
-
-    let mut builder = CoenBuilder::new(args)?;
+    let mut builder = CoenBuilder::new(&args)?;
     builder.build()?;
+
+    let target = match args.target.clone() {
+        Some(target) => target,
+        None => builder.get_target().unwrap(),
+    };
 
     let content = builder.get_content();
 
-    fs::write(tgt, &content)?;
+    fs::write(target, &content)?;
 
     Ok(())
 }
