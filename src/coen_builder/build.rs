@@ -68,7 +68,6 @@ impl CoenBuilder {
                 self.command_def()?;
             }
             _ => {
-                // println!("Invalid command: {}", elements[0]);
                 self.command_default()?;
             }
         }
