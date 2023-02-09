@@ -9,7 +9,8 @@ use std::{
 
 use super::CoenBuilder;
 
-static COMAND_IDENTIFIER: char = '!';
+static COMMAND_IDENTIFIER: char = '!';
+static VARIABLE_IDENTIFIER: char = '$';
 
 impl CoenBuilder {
     pub fn build(&mut self) -> Result<(), Box<dyn Error>> {
@@ -21,9 +22,10 @@ impl CoenBuilder {
         self.build_content()?;
 
         for (variable_key, variable_value) in &self.variables {
-            self.content = self
-                .content
-                .replace(&format!("${variable_key}"), variable_value);
+            self.content = self.content.replace(
+                &format!("{VARIABLE_IDENTIFIER}{variable_key}"),
+                variable_value,
+            );
         }
 
         self.target = self.variables.get("TARGET").map(PathBuf::from);
@@ -50,7 +52,7 @@ impl CoenBuilder {
 
             match self.current_statement.chars().nth(0) {
                 Some(ch) => {
-                    if ch == COMAND_IDENTIFIER {
+                    if ch == COMMAND_IDENTIFIER {
                         self.handle_command()?;
                     } else {
                         self.handle_statement()?;
@@ -100,8 +102,10 @@ impl CoenBuilder {
         }
 
         for (variable_key, variable_value) in &self.variables {
-            modified_sentence =
-                modified_sentence.replace(&format!("${variable_key}"), variable_value);
+            modified_sentence = modified_sentence.replace(
+                &format!("{VARIABLE_IDENTIFIER}{variable_key}"),
+                variable_value,
+            );
         }
 
         self.content.push_str(&modified_sentence);
