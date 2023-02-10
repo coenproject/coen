@@ -34,7 +34,12 @@ impl CoenBuilder {
     pub fn write(&self, target_override: Option<PathBuf>) -> Result<(), Box<dyn Error>> {
         let target = match target_override {
             Some(target) => target,
-            None => self.target.clone().unwrap(),
+            None => {
+                let mut target = PathBuf::from(self.current_conversion_file.parent().unwrap());
+                target.push(self.target.clone().unwrap());
+
+                target
+            }
         };
 
         self.log(&format!("Writing to {}", target.display()))?;
