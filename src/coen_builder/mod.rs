@@ -36,7 +36,7 @@ impl CoenBuilder {
             Some(target) => target,
             None => {
                 let mut target = PathBuf::from(self.current_conversion_file.parent().unwrap());
-                target.push(self.target.clone().unwrap());
+                target.push(self.target.clone().ok_or("No target path specified.")?);
 
                 target
             }
