@@ -6,7 +6,11 @@ impl CoenBuilder {
     pub(crate) fn command_import(&mut self) -> Result<(), Box<dyn Error>> {
         let elements: Vec<&str> = self.current_statement.split_whitespace().collect();
 
-        let mut next_file_path = self.current_conversion_file.parent().unwrap().to_path_buf();
+        let mut next_file_path = self
+            .current_conversion_file
+            .parent()
+            .ok_or("Cannot obtain parent path")?
+            .to_path_buf();
 
         let next_file_name = Self::get_joined_elements(&elements, 1);
 
